@@ -1,0 +1,72 @@
+public class RecursiveSwap {
+ // (a) Node class for SLL 
+ static class Node {
+     int data;        // value of node
+     Node next;       // pointer to next node
+
+     // constructor
+     public Node(int data) {
+         this.data = data;
+         this.next = null;
+     }
+ }
+ // (b) Singly Linked List class with only "head" access
+ static class SinglyLinkedList {
+     Node head;
+
+     // constructor
+     public SinglyLinkedList(Node head) {
+         this.head = head;
+     }
+
+     // function required by part (d)
+     public void printSLL(Node head) {
+         Node temp = head;
+         while (temp != null) {
+             System.out.print(temp.data + " ");
+             temp = temp.next;
+         }
+         System.out.println();
+     }
+     // (c) swapPairs using RECURSION 
+     // Given a linked list, swap every two adjacent nodes.It doesn't change node values → only rearrange node links.
+     public Node swapPairs(Node head) {
+
+         // Base cases: empty list or only one node
+         if (head == null || head.next == null) {
+             return head;
+         }
+
+         // Recursion:
+         // head → first node
+         // head.next → second node
+         Node first = head;
+         Node second = head.next;
+
+         // Recursively swap the remaining list
+         first.next = swapPairs(second.next);
+
+         // Now swap current pair:
+         second.next = first;
+
+         // After swap, 'second' becomes the new head of this segment
+         return second;
+     }
+ }
+ // (e) Test Cases
+ public static void main(String[] args) {
+
+     // Example 1: [1,2,3,4]
+     Node a1 = new Node(1);
+     a1.next = new Node(2);
+     a1.next.next = new Node(3);
+     a1.next.next.next = new Node(4);
+
+     SinglyLinkedList list1 = new SinglyLinkedList(a1);
+     System.out.print("Input 1:  ");
+     list1.printSLL(list1.head);
+     list1.head = list1.swapPairs(list1.head); // [2,1,4,3]
+     System.out.print("Output 1: ");
+     list1.printSLL(list1.head);
+ }
+}
